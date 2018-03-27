@@ -22,6 +22,30 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
+#include <cutils/properties.h>
+#include <string.h>
+
+#include "osi/include/osi.h"
+
+static inline const char* BtmGetDefaultName()
+{
+    char product_device[PROPERTY_VALUE_MAX];
+    property_get("ro.product.device", product_device, "");
+
+    if (strstr(product_device, "akari"))
+        return "Sony Xperia XZ2";
+    if (strstr(product_device, "akatsuki"))
+        return "Sony Xperia XZ3";
+    if (strstr(product_device, "apollo"))
+        return "Sony Xperia XZ2 Compact";
+    if (strstr(product_device, "apollo_dual"))
+        return "Sony Xperia XZ2 Compact";
+
+    // Fallback to ro.product.model
+    return "";
+}
+
+#define BTM_DEF_LOCAL_NAME BtmGetDefaultName()
 // Disables read remote device feature
 #define MAX_ACL_CONNECTIONS   16
 #define MAX_L2CAP_CHANNELS    16
