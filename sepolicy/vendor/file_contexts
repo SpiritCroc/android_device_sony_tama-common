@@ -7,3 +7,15 @@
 
 # files in firmware
 /firmware(/.*)?         u:object_r:firmware_file:s0
+
+# Binaries
+/(vendor|system/vendor)/bin/keyprovd            u:object_r:keyprovd_exec:s0
+/(vendor|system/vendor)/bin/mlog_qmi_service    u:object_r:mlog_qmi_service_exec:s0
+/(vendor|system/vendor)/bin/qns                 u:object_r:qns_exec:s0
+/(vendor|system/vendor)/bin/secd                u:object_r:secd_exec:s0
+/(vendor|system/vendor)/bin/wvkbd               u:object_r:wvkbd_exec:s0
+
+# HALs
+/(vendor|system/vendor)/bin/hw/vendor\.semc\.hardware\.secd@1\.0-service                        u:object_r:hal_secd_default_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.semc\.system\.idd@1\.0-service                           u:object_r:hal_idd_default_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.somc\.hardware\.miscta@1\.0-service                      u:object_r:hal_miscta_default_exec:s0
