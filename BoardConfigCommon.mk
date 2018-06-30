@@ -81,6 +81,9 @@ BOARD_ROOT_EXTRA_SYMLINKS += /vendor/firmware_mnt/verinfo:/firmware/verinfo
 # Audio
 USE_XML_AUDIO_POLICY_CONF := 1
 
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/sony/tama-common/bluetooth/include
+
 # DRM
 TARGET_ENABLE_MEDIADRM_64 := true
 
