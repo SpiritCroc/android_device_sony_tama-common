@@ -16,6 +16,7 @@
 BOARD_VENDOR_PLATFORM := tama
 PRODUCT_PLATFORM := tama
 TARGET_BOARD_PLATFORM := sdm845
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno630
 
 # Architecture
 TARGET_ARCH := arm64
@@ -30,6 +31,14 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := kryo385
 
+TARGET_USES_64_BIT_BINDER := true
+
+# APEX
+DEXPREOPT_GENERATE_APEX_IMAGE := true
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := sdm845
+
 # Kernel information
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
@@ -42,7 +51,7 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $
 TARGET_NEEDS_DTBOIMAGE := true
 
 # TODO try clang
-TARGET_KERNEL_SOURCE := kernel/sony/msm-4.9
+TARGET_KERNEL_SOURCE := kernel/sony/sdm845
 
 # TODO clean up
 BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom
@@ -75,8 +84,10 @@ TARGET_NO_RADIOIMAGE := true
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := false
 TARGET_NO_RECOVERY := true
+BOARD_USES_RECOVERY_AS_BOOT := true
 
-BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
+# Overwrite rules for NFC
+BUILD_BROKEN_DUP_RULES := true
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -88,19 +99,84 @@ BOARD_ROOT_EXTRA_SYMLINKS += /vendor/firmware_mnt/image:/firmware/image
 BOARD_ROOT_EXTRA_SYMLINKS += /vendor/firmware_mnt/verinfo:/firmware/verinfo
 
 # Audio
+AUDIO_FEATURE_ENABLED_AAC_ADTS_OFFLOAD := true
+AUDIO_FEATURE_ENABLED_AUDIOSPHERE := true
+AUDIO_FEATURE_ENABLED_EXTENDED_COMPRESS_FORMAT := true
+AUDIO_FEATURE_ENABLED_EXTN_FORMATS := true
+AUDIO_FEATURE_ENABLED_HDMI_SPK := true
+AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
+TARGET_PROVIDES_AUDIO_EXTNS := true
+USE_CUSTOM_AUDIO_POLICY := 1
 USE_XML_AUDIO_POLICY_CONF := 1
+BOARD_SUPPORTS_SOUND_TRIGGER := true
 
 # Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_QCOM := true
+TARGET_USE_QTI_BT_STACK := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/sony/tama-common/bluetooth
+WCNSS_FILTER_USES_SIBS := true
+
+# Camera
+TARGET_USES_MEDIA_EXTENSIONS := true
+TARGET_USES_QTI_CAMERA_DEVICE := true
+USE_DEVICE_SPECIFIC_CAMERA := true
+
+# Charger
+BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# CNE and DPM
+BOARD_USES_QCNE := true
+
+# Dex
+ifeq ($(HOST_OS),linux)
+  ifneq ($(TARGET_BUILD_VARIANT),eng)
+    WITH_DEXPREOPT ?= true
+  endif
+endif
+WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY ?= true
 
 # DRM
 TARGET_ENABLE_MEDIADRM_64 := true
 
+# Filesystem
+TARGET_FS_CONFIG_GEN := device/sony/tama-common/config.fs
+
+# Graphics
+TARGET_USES_GRALLOC1 := true
+TARGET_USES_HWC2 := true
+TARGET_USES_ION := true
+
+MAX_EGL_CACHE_KEY_SIZE := 12*1024
+MAX_EGL_CACHE_SIZE := 2048*1024
+
+# HIDL
+DEVICE_MANIFEST_FILE := device/sony/tama-common/manifest.xml
+# device matrix
+DEVICE_MATRIX_FILE := device/sony/tama-common/compatibility_matrix.xml
+
+# QCOM
+BOARD_USES_QCOM_HARDWARE := true
+
+# Recovery
+TARGET_RECOVERY_FSTAB := device/sony/tama-common/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+
+# RIL
+TARGET_PER_MGR_ENABLED := true
+
+# Security patch level
+VENDOR_SECURITY_PATCH := 2020-02-01
+
 # SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/sony/tama-common/sepolicy
+include device/qcom/sepolicy/sepolicy.mk
+
+#BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/sony/tama-common/sepolicy/private
+#BOARD_PLAT_PUBLIC_SEPOLICY_DIR += device/sony/tama-common/sepolicy/public
+BOARD_SEPOLICY_DIRS += device/sony/tama-common/sepolicy/vendor
 
 # System properties
+BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 TARGET_SYSTEM_PROP += device/sony/tama-common/system.prop
 
 # Vendor
@@ -108,3 +184,20 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_JOURNAL_SIZE := 0
 BOARD_VENDORIMAGE_EXTFS_INODE_COUNT := 4096
+
+
+# Wi-Fi definitions for Qualcomm solution
+BOARD_WLAN_DEVICE := qcwcn
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+WIFI_DRIVER_DEFAULT := qca_cld3
+WIFI_DRIVER_STATE_CTRL_PARAM := "/dev/wlan"
+WIFI_DRIVER_STATE_OFF := "OFF"
+WIFI_DRIVER_STATE_ON := "ON"
+WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+# Inherit from the proprietary version
+-include vendor/sony/tama-common/BoardConfigVendor.mk
