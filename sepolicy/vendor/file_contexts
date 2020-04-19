@@ -13,6 +13,7 @@
 /(vendor|system/vendor)/bin/mlog_qmi_service    u:object_r:mlog_qmi_service_exec:s0
 /(vendor|system/vendor)/bin/qns                 u:object_r:qns_exec:s0
 /(vendor|system/vendor)/bin/secd                u:object_r:secd_exec:s0
+/(vendor|system/vendor)/bin/timekeep            u:object_r:timekeep_exec:s0
 /(vendor|system/vendor)/bin/wvkbd               u:object_r:wvkbd_exec:s0
 
 # HALs
