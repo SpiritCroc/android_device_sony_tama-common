@@ -269,6 +269,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
 
+# JamesDSP
+PRODUCT_PACKAGES += \
+    JamesDSPManager
+
 # Lights TODO .tama or .sony ?
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
