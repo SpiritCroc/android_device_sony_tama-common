@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Overlays found in stock vendor overlays -->
 <resources>
 
     <string-array name="config_mobile_tcp_buffers">
@@ -154,9 +156,5 @@
     <string name="config_optionalPackageVerifierName">seemp.service</string>
 
     <string name="config_persistentDataPackageName">com.google.android.gms</string>
-
-    <!-- Setting this true forces the headset jack switches to use the/dev/input/event subsystem
-         rather than the uevent framework. -->
-    <bool name="config_useDevInputEventForAudioJack">true</bool>
 
 </resources>
