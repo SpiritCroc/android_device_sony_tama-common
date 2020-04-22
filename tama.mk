@@ -273,6 +273,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     JamesDSPManager
 
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/usr/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl
+
 # Lights TODO .tama or .sony ?
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
