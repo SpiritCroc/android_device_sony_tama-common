@@ -166,7 +166,7 @@ TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_PER_MGR_ENABLED := true
 
 # Security patch level
-VENDOR_SECURITY_PATCH := 2020-02-01
+VENDOR_SECURITY_PATCH := 2020-04-01
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
