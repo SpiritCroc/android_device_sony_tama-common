@@ -18,5 +18,5 @@
 cc_library {
     name: "bootctrl.sdm845",
     defaults: ["bootctrl_hal_defaults"],
-    static_libs: ["libgptutils"],
+    static_libs: ["libgptutils.sony_tama"],
 }
